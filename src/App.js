@@ -1,45 +1,78 @@
 import React from 'react';
 import './App.css';
 
-const Header = () => {
+const players = [
+  {
+  name: "Chris",
+  score: 50,
+  id: 1
+  },
+  {
+  name: "Sarah",
+  score: 85,
+  id: 2
+  },
+  {
+  name: "Rusty",
+  score: 95,
+  id: 3
+  },
+  {
+  name: "Oakley",
+  score: 80,
+  id: 4
+  }
+];
+
+const Header = (props) => {
   return (
     <header>
-      <h1>Scoreboard</h1>
-      <span className="stats">Player: 1</span>
+      <h1>{ props.title }</h1>
+      <span className="stats">Player: { props.totalPlayers }</span>
     </header>
   );
 }
 
-const Player = () => {
+const Player = (props) => {
   return (
     <div className="player">
       <span className="player-name">
-        Chris
+        { props.name }
       </span>
 
-      <Counter />
+      <Counter score={ props.score } />
     </div>
   );
 }
 
-const Counter = () => {
-  return(
-    <div className="counter">
-      <button className="counter-action decrement"> - </button>
-      <span className="counter-score">13</span>
-      <button className="counter-action increment"> + </button>
-    </div>
-  );
+class Counter extends React.Component {
+  render(){
+    return(
+      <div className="counter">
+        <button className="counter-action decrement"> - </button>
+        <span className="counter-score">{ this.props.score }</span>
+        <button className="counter-action increment"> + </button>
+      </div>
+    );
+  }
 }
 
-const App = () => {
+const App = (props) => {
   return(
-    <div className='scoreboard'>
-      <Header />
+    <div className="scoreboard">
+      <Header
+        title="Scoreboard"
+        totalPlayers={ players.length }
+      />
 
       {/* Players List */}
-      <Player />
-
+      {players.map( players =>
+        <Player
+          name={ players.name }
+          score={ players.score }
+          key={ players.id.toString() }
+        />
+      )}
     </div>
   );
 }
